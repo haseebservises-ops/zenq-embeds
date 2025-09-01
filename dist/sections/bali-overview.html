@@ -1,0 +1,412 @@
+<!-- =========================================================
+  ZENQUENCY HEALING • BALI RETREAT — SECTION 2 (OVERVIEW + OPTIONS)
+  - Clean, premium aesthetic (Zenquency teal + soft gold)
+  - Namespaced to #bali-overview (no global CSS/JS leakage)
+  - Includes: Overview, value badges, two option cards,
+              tabbed schedules (5-day / 7-day), subtle motion
+  - Buttons pull destinations from data-attributes
+========================================================= -->
+<section id="bali-overview"
+  aria-label="Retreat overview and options"
+  data-apply-url="#apply"         <!-- change to your Application Page -->
+        <!-- change to your Call/Calendar URL -->
+
+  <style>
+    /* -------- Scope & Palette -------- */
+    #bali-overview, #bali-overview * { box-sizing: border-box; }
+    #bali-overview {
+      --ink: #0B6060;           /* primary deep teal */
+      --ink-900:#084B4B;
+      --ink-700:#0E7E7E;
+      --muted:#5C6E6E;
+      --accent:#E9C77B;         /* soft gold */
+      --white:#fff;
+
+      --sky-25:#F5FBFA;
+      --sky-50:#ECF7F6;
+      --sky-100:#DFF2F0;
+      --sky-200:#CAE7E4;
+
+      --shadow: 0 8px 30px rgba(11,96,96,.12), 0 2px 8px rgba(11,96,96,.08);
+      --radius-xl: 26px;
+      --radius-lg: 18px;
+      --radius-md: 14px;
+      --radius-sm: 10px;
+      --ring: 0 0 0 8px rgba(11,96,96,.08);
+
+      position: relative;
+      isolation: isolate;
+      background:
+        radial-gradient(1000px 520px at 12% 20%, rgba(233,199,123,.15), transparent 55%),
+        linear-gradient(180deg, var(--sky-25), var(--sky-100));
+      padding: clamp(36px, 6vw, 70px) clamp(18px, 4vw, 32px);
+    }
+
+    /* -------- Header -------- */
+    #bali-overview .header {
+      max-width: 1040px; margin: 0 auto 24px auto; text-align: center;
+    }
+    #bali-overview .eyebrow{
+      display:inline-flex; align-items:center; gap:10px;
+      padding:8px 12px; border-radius:999px;
+      background: linear-gradient(180deg, var(--white), var(--sky-50));
+      border:1px solid var(--sky-200);
+      color: var(--ink-900);
+      font: 700 12px/1 ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial;
+      letter-spacing:.3px; box-shadow: var(--shadow);
+    }
+    #bali-overview .eyebrow .dot{
+      width:8px; height:8px; border-radius:999px; background: var(--accent);
+      box-shadow: 0 0 0 4px rgba(233,199,123,.28);
+    }
+    #bali-overview h2{
+      margin: 16px 0 10px;
+      font: 800 clamp(26px, 3.4vw, 40px)/1.08 ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial;
+      letter-spacing:-.3px; color: var(--ink-900);
+    }
+    #bali-overview .subhead{
+      margin: 0 auto; max-width: 70ch; color: var(--muted);
+      font: 500 clamp(15px, 1.6vw, 18px)/1.7 ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial;
+    }
+
+    /* -------- Value badges -------- */
+    #bali-overview .badges{
+      display:flex; flex-wrap:wrap; justify-content:center; gap:12px;
+      margin: 22px auto 32px; max-width: 1000px;
+    }
+    #bali-overview .badge{
+      display:inline-flex; align-items:center; gap:10px;
+      padding:10px 12px; border-radius: 999px;
+      background: var(--sky-50); color: var(--ink);
+      border:1px solid var(--sky-200);
+      font: 700 12.5px/1 ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial;
+      box-shadow: var(--shadow);
+    }
+    #bali-overview .badge .i{
+      width:18px; height:18px; display:grid; place-items:center;
+      background: var(--ink); color: var(--white); border-radius:6px; font-size:11px;
+    }
+
+    /* -------- Options grid -------- */
+    #bali-overview .grid{
+      max-width: 1100px; margin: 0 auto; display:grid; gap:16px;
+      grid-template-columns: 1fr 1fr;
+    }
+    @media (max-width: 980px){ #bali-overview .grid{ grid-template-columns: 1fr; } }
+
+    #bali-overview .card{
+      position:relative; overflow: clip;
+      background: linear-gradient(180deg, var(--white), var(--sky-50));
+      border:1px solid var(--sky-200); border-radius: var(--radius-xl);
+      box-shadow: var(--shadow);
+      transition: transform .25s ease, box-shadow .25s ease;
+    }
+    #bali-overview .card:hover{
+      transform: translateY(-2px);
+      box-shadow: 0 14px 34px rgba(11,96,96,.18), 0 6px 16px rgba(11,96,96,.12);
+    }
+    #bali-overview .cap{
+      display:flex; align-items:center; justify-content:space-between; gap:16px;
+      padding: 18px; background: rgba(233,199,123,.12);
+      border-bottom: 1px solid rgba(233,199,123,.28);
+    }
+    #bali-overview .cap b{
+      color: var(--ink-900); font: 800 16px/1.2 ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial;
+      letter-spacing:.2px;
+    }
+    #bali-overview .price{
+      display:inline-flex; align-items:baseline; gap:8px; color: var(--ink-900);
+    }
+    #bali-overview .price .amt{ font: 900 22px/1 ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial; }
+    #bali-overview .price .note{ font: 700 11px/1 ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial; color: var(--muted); }
+
+    #bali-overview .body{ padding: clamp(16px, 2.4vw, 22px); }
+    #bali-overview .bullets{
+      display:grid; gap:10px; margin: 8px 0 16px; list-style:none; padding:0;
+    }
+    #bali-overview .bullets li{
+      display:flex; align-items:flex-start; gap:10px; color: var(--ink-900);
+      font: 600 14px/1.45 ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial;
+    }
+    #bali-overview .bullets .ck{
+      width:20px; height:20px; border-radius:6px; display:grid; place-items:center;
+      background: var(--ink); color: var(--white); font-size:12px; flex:0 0 auto;
+    }
+
+    /* -------- Buttons -------- */
+    #bali-overview .cta-row{ display:flex; flex-wrap:wrap; gap:10px; margin-top: 6px; }
+    #bali-overview .btn{
+      -webkit-tap-highlight-color: transparent;
+      appearance:none; border:none; outline:none; cursor:pointer;
+      border-radius: 12px; padding: 14px 18px; min-width: 160px;
+      display:inline-flex; align-items:center; justify-content:center; gap:10px;
+      font: 800 14px/1 ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial;
+      transition: transform .2s ease, box-shadow .2s ease, background .25s ease, color .25s ease;
+    }
+    #bali-overview .btn-primary{
+      background: linear-gradient(180deg, var(--ink), var(--ink-900)); color: var(--white);
+      box-shadow: 0 12px 28px rgba(11,96,96,.18), 0 4px 12px rgba(11,96,96,.16);
+    }
+    #bali-overview .btn-primary:hover{ transform: translateY(-1px); }
+    #bali-overview .btn-ghost{
+      background: linear-gradient(180deg, var(--white), var(--sky-50));
+      color: var(--ink-900); border:1px solid var(--sky-200); box-shadow: var(--shadow);
+    }
+    #bali-overview .btn:focus-visible{ box-shadow: var(--ring); }
+
+    /* -------- Deposit ribbon -------- */
+    #bali-overview .ribbon{
+      position:absolute; top:16px; right:-64px; transform: rotate(12deg);
+      background: linear-gradient(180deg, var(--accent), #f1deaa);
+      color:#3f3312; padding:8px 64px; font: 900 12px/1 ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial;
+      border: 1px solid rgba(63,51,18,.22);
+      box-shadow: 0 8px 18px rgba(63,51,18,.18);
+      border-radius: 999px;
+    }
+
+    /* -------- Tabs (Schedules) -------- */
+    #bali-overview .tabs{
+      max-width: 1100px; margin: 18px auto 0;
+      background: var(--white); border:1px solid var(--sky-200);
+      border-radius: var(--radius-xl); box-shadow: var(--shadow);
+      overflow: clip;
+    }
+    #bali-overview .tablist{
+      display:flex; gap:0; border-bottom:1px solid var(--sky-200);
+      background: linear-gradient(180deg, var(--white), var(--sky-50));
+    }
+    #bali-overview .tab{
+      flex:1; padding:14px; text-align:center; cursor:pointer; user-select:none;
+      font: 800 13px/1 ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial;
+      color: var(--ink-900); border-right:1px solid var(--sky-200);
+      background: transparent; transition: background .2s ease;
+    }
+    #bali-overview .tab:last-child{ border-right:none; }
+    #bali-overview .tab[aria-selected="true"]{
+      background: rgba(233,199,123,.15);
+    }
+    #bali-overview .panel{ display:none; padding: 16px; }
+    #bali-overview .panel.active{ display:block; }
+
+    /* -------- Timeline styles -------- */
+    #bali-overview .timeline{
+      display:grid; gap:12px; max-width: 980px; margin: 6px auto 10px;
+    }
+    #bali-overview .day{
+      display:grid; grid-template-columns: 110px 1fr; gap:12px;
+      align-items:flex-start; background: var(--sky-50);
+      border:1px solid var(--sky-200); border-radius: var(--radius-lg);
+      padding: 14px;
+    }
+    @media (max-width: 680px){
+      #bali-overview .day{ grid-template-columns: 1fr; }
+    }
+    #bali-overview .day .when{
+      font: 900 13px/1.1 ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial;
+      color: var(--ink-900);
+    }
+    #bali-overview .day .what{ color: var(--ink-900); font: 600 14px/1.5 ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial; }
+    #bali-overview .note{
+      text-align:center; color: var(--muted); margin-top: 6px;
+      font: 600 12px/1.4 ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial;
+    }
+
+    /* -------- Reveal on view -------- */
+    #bali-overview .reveal{
+      opacity:0; transform: translateY(10px);
+      transition: opacity .5s ease, transform .5s ease;
+    }
+    #bali-overview .reveal.in{ opacity:1; transform: translateY(0); }
+
+    @media (prefers-reduced-motion: reduce){
+      #bali-overview *{ transition:none !important; animation:none !important; }
+    }
+  </style>
+
+  <!-- Header -->
+  <div class="header reveal">
+    <span class="eyebrow"><span class="dot" aria-hidden="true"></span> Retreat Overview</span>
+    <h2>Healing in Bali — Two Paths, One Transformation</h2>
+    <p class="subhead">
+      Join an intimate group in Ubud (max 8). Choose the <strong>5-Day Healing & Renewal</strong> journey or the
+      <strong>7-Day Sound &amp; Energy Mastery Certification</strong> with afternoon training and a closing practicum.
+      Every day blends chakra-based practices, Tibetan bowl techniques, and compassionate guidance.
+    </p>
+  </div>
+
+  <!-- Value badges -->
+  <div class="badges reveal" aria-label="Retreat highlights">
+    <div class="badge"><span class="i">🧘</span> Daily guided practice</div>
+    <div class="badge"><span class="i">🎓</span> 7-Day includes certification</div>
+    <div class="badge"><span class="i">👥</span> Intimate group (max 8)</div>
+    <div class="badge"><span class="i">📍</span> Ubud, Bali</div>
+    <div class="badge"><span class="i">💛</span> Trauma-aware & ethical</div>
+  </div>
+
+  <!-- Options grid -->
+  <div class="grid">
+    <!-- 5-Day Card -->
+    <article class="card reveal" aria-labelledby="opt5-title">
+      <div class="ribbon" aria-hidden="true">$750 deposit secures your place</div>
+      <header class="cap">
+        <b id="opt5-title">5-Day Healing &amp; Renewal</b>
+        <div class="price"><span class="amt">$3,997</span><span class="note">Dec 6–10</span></div>
+      </header>
+      <div class="body">
+        <ul class="bullets" aria-label="What’s included">
+          <li><span class="ck">✓</span>Daily practice 9:00 AM–3:00 PM</li>
+          <li><span class="ck">✓</span>Chakra-based journey: Heart, Root/Sacral, Solar Plexus/Throat, Third Eye/Crown, Integration</li>
+          <li><span class="ck">✓</span>Closing ceremony & community circle</li>
+        </ul>
+        <div class="cta-row">
+          <a class="btn btn-primary apply">Apply Now</a>
+          <a class="btn btn-ghost call">Book a Clarity Call</a>
+        </div>
+      </div>
+    </article>
+
+    <!-- 7-Day Card -->
+    <article class="card reveal" aria-labelledby="opt7-title">
+      <div class="ribbon" aria-hidden="true">Certification track • limited seats</div>
+      <header class="cap">
+        <b id="opt7-title">7-Day Sound &amp; Energy Mastery Certification</b>
+        <div class="price"><span class="amt">$5,997</span><span class="note">Dec 6–12</span></div>
+      </header>
+      <div class="body">
+        <ul class="bullets" aria-label="What’s included">
+          <li><span class="ck">✓</span>All 5-Day sessions <em>plus</em> exclusive training 3:00–5:00 PM</li>
+          <li><span class="ck">✓</span>Two extra days: personalized soul-healing practicum & certification ceremony</li>
+          <li><span class="ck">✓</span>Post-retreat bonus: Soul Tone Reading (online)</li>
+        </ul>
+        <div class="cta-row">
+          <a class="btn btn-primary apply">Apply Now</a>
+          <a class="btn btn-ghost call">Book a Clarity Call</a>
+        </div>
+      </div>
+    </article>
+  </div>
+
+  <!-- Tabbed schedules -->
+  <div class="tabs reveal" role="tablist" aria-label="Retreat schedules">
+    <div class="tablist" role="tablist">
+      <button class="tab" role="tab" aria-selected="true" aria-controls="panel-5" id="tab-5">5-Day Schedule</button>
+      <button class="tab" role="tab" aria-selected="false" aria-controls="panel-7" id="tab-7">7-Day Schedule</button>
+    </div>
+
+    <!-- 5-day panel -->
+    <div class="panel active" id="panel-5" role="tabpanel" aria-labelledby="tab-5">
+      <div class="timeline" aria-label="5-Day Healing & Renewal schedule">
+        <div class="day">
+          <div class="when">Day 1<br>9:00–3:00</div>
+          <div class="what"><strong>Heart Chakra Opening</strong> — arrival, compassion practices, gentle sound immersion.</div>
+        </div>
+        <div class="day">
+          <div class="when">Day 2<br>9:00–3:00</div>
+          <div class="what"><strong>Root &amp; Sacral</strong> — grounding, stability & creative flow; bowls + breath-led movement.</div>
+        </div>
+        <div class="day">
+          <div class="when">Day 3<br>9:00–3:00</div>
+          <div class="what"><strong>Solar Plexus &amp; Throat</strong> — empowerment, boundaries, truth-speaking with tone quality.</div>
+        </div>
+        <div class="day">
+          <div class="when">Day 4<br>9:00–3:00</div>
+          <div class="what"><strong>Third Eye &amp; Crown</strong> — intuition, stillness & spiritual connection.</div>
+        </div>
+        <div class="day">
+          <div class="when">Day 5<br>9:00–3:00</div>
+          <div class="what"><strong>Full Chakra Integration</strong> — personal ritual, closing ceremony & community circle.</div>
+        </div>
+      </div>
+      <p class="note">Deposit: <strong>$750 (non-refundable)</strong> secures your spot. Balance due before arrival.</p>
+    </div>
+
+    <!-- 7-day panel -->
+    <div class="panel" id="panel-7" role="tabpanel" aria-labelledby="tab-7">
+      <div class="timeline" aria-label="7-Day Mastery Certification schedule">
+        <div class="day">
+          <div class="when">Day 1<br>9:00–5:00</div>
+          <div class="what"><strong>Foundations of Vibrational Healing &amp; Sound Ethics</strong> — safety, scope, intention.</div>
+        </div>
+        <div class="day">
+          <div class="when">Day 2<br>9:00–5:00</div>
+          <div class="what"><strong>Tibetan Bowl Techniques</strong> — solo & paired work; striking, listening, tone quality.</div>
+        </div>
+        <div class="day">
+          <div class="when">Day 3<br>9:00–5:00</div>
+          <div class="what"><strong>Chakra-Focused Sound Protocols</strong> — session flows for specific imbalances.</div>
+        </div>
+        <div class="day">
+          <div class="when">Day 4<br>9:00–5:00</div>
+          <div class="what"><strong>Energy Assessment &amp; Intuitive Alignment</strong> — sensing, mapping, ethical language.</div>
+        </div>
+        <div class="day">
+          <div class="when">Day 5<br>9:00–5:00</div>
+          <div class="what"><strong>The Power of Your Own Voice</strong> — resonance, overtones, guided toning practices.</div>
+        </div>
+        <div class="day">
+          <div class="when">Day 6<br>9:00–5:00</div>
+          <div class="what"><strong>Personalized Soul Healing</strong> — designing custom sessions; supervised practice.</div>
+        </div>
+        <div class="day">
+          <div class="when">Day 7<br>9:00–5:00</div>
+          <div class="what"><strong>Practicum &amp; Certification Ceremony</strong> — assessed sessions, feedback, next steps.</div>
+        </div>
+      </div>
+      <p class="note">Includes all 5-Day content <em>plus</em> daily 3:00–5:00 PM training and certification requirements.</p>
+    </div>
+  </div>
+
+  <script>
+    (function(){
+      const root = document.getElementById('bali-overview');
+      if(!root) return;
+
+      /* ------ Buttons destinations from data-attributes ------ */
+      const applyURL = root.getAttribute('data-apply-url') || '#apply';
+      const callURL  = root.getAttribute('data-call-url')  || '#book-call';
+      root.querySelectorAll('.apply').forEach(a=> a.href = applyURL);
+      root.querySelectorAll('.call').forEach(a=> a.href = callURL);
+
+      /* ------ Tabs / Panels (keyboard accessible) ------ */
+      const tabs = Array.from(root.querySelectorAll('.tab'));
+      const panels = {
+        'tab-5': root.querySelector('#panel-5'),
+        'tab-7': root.querySelector('#panel-7')
+      };
+      function activateTab(btn){
+        tabs.forEach(t=>{
+          const sel = t === btn;
+          t.setAttribute('aria-selected', sel ? 'true' : 'false');
+          const p = panels[t.id];
+          if(p){ p.classList.toggle('active', sel); }
+        });
+      }
+      tabs.forEach(t=>{
+        t.addEventListener('click', ()=> activateTab(t));
+        t.addEventListener('keydown', (e)=>{
+          if(e.key === 'ArrowRight' || e.key === 'ArrowLeft'){
+            e.preventDefault();
+            const i = tabs.indexOf(t);
+            const next = e.key === 'ArrowRight' ? (i+1)%tabs.length : (i-1+tabs.length)%tabs.length;
+            tabs[next].focus(); activateTab(tabs[next]);
+          }
+        });
+      });
+
+      /* ------ Reveal on view ------ */
+      const obs = new IntersectionObserver((entries)=>{
+        entries.forEach(e=>{
+          if(e.isIntersecting){ e.target.classList.add('in'); obs.unobserve(e.target); }
+        });
+      }, { threshold: .18 });
+      root.querySelectorAll('.reveal').forEach(el=> obs.observe(el));
+
+      /* ------ Respect reduced motion ------ */
+      try {
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+          root.querySelectorAll('*').forEach(el => el.style.transition = 'none');
+        }
+      } catch(e){}
+    })();
+  </script>
+</section>

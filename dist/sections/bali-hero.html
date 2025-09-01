@@ -1,0 +1,267 @@
+<!-- =========================================================
+  ZENQUENCY HEALING • BALI RETREAT — SECTION 1 (HERO)
+  - Clean, premium aesthetic with subtle motion
+  - Namespaced to #bali-hero (no global CSS/JS leakage)
+  - Buttons auto-link from data-* attributes
+  - Countdown + limited-spots meter
+========================================================= -->
+<section id="bali-hero"
+  aria-label="Bali Chakra Sound Healing Retreat — Hero"
+  data-apply-url="#apply"
+  data-call-url="#book-call"
+  data-event-start="2025-12-06T09:00:00+08:00"
+  data-spots-total="8"
+  data-spots-left="8"
+  data-hero-img="https://images.unsplash.com/photo-1544717302-de2939b7ef71?q=80&w=1600&auto=format&fit=crop"
+  data-overlay="true">
+
+  <style>
+    #bali-hero, #bali-hero * { box-sizing: border-box; }
+    #bali-hero { position: relative; isolation: isolate; overflow: clip; }
+
+    /* Brand palette */
+    #bali-hero {
+      --ink:#0B6060; --ink-900:#084B4B; --ink-700:#0E7E7E;
+      --sky-25:#F5FBFA; --sky-50:#ECF7F6; --sky-100:#DFF2F0; --sky-200:#CAE7E4;
+      --muted:#5C6E6E; --accent:#E9C77B; --white:#fff;
+      --shadow: 0 8px 30px rgba(11,96,96,.12), 0 2px 8px rgba(11,96,96,.08);
+      --radius-xl:28px; --radius-lg:18px; --radius-sm:10px;
+      --ring:0 0 0 8px rgba(11,96,96,.08);
+    }
+
+    /* Background */
+    #bali-hero .bg{
+      position:absolute; inset:0; z-index:-2;
+      background:
+        radial-gradient(1200px 600px at 85% 20%, rgba(233,199,123,.25), transparent 60%),
+        radial-gradient(900px 600px at 15% 80%, rgba(11,96,96,.15), transparent 60%),
+        linear-gradient(180deg, var(--sky-25), var(--sky-100));
+    }
+    #bali-hero .bg::after{
+      content:""; position:absolute; inset:-20%;
+      background-image:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="160" height="160"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="2" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/></filter><rect width="100%" height="100%" filter="url(%23n)" opacity=".045"/></svg>');
+      background-size:160px 160px; pointer-events:none; mix-blend-mode:multiply;
+    }
+
+    /* Layout */
+    #bali-hero .container{
+      max-width:1200px; margin:0 auto; padding:clamp(28px,4vw,48px);
+      display:grid; gap:clamp(22px,3vw,36px);
+      grid-template-columns:1.06fr .94fr; align-items:center;
+    }
+    @media (max-width:980px){ #bali-hero .container{ grid-template-columns:1fr; padding-top:28px; } }
+
+    /* Aura */
+    #bali-hero .aura{
+      position:absolute; inset:-10% -5% auto auto; width:42vmax; height:42vmax;
+      background:radial-gradient(closest-side, rgba(233,199,123,.14), transparent 60%);
+      filter:blur(12px); z-index:-1; animation:auraFloat 18s ease-in-out infinite;
+    }
+    @keyframes auraFloat{ 0%,100%{transform:translateY(0) scale(1)} 50%{transform:translateY(12px) scale(1.02)} }
+    @media (prefers-reduced-motion:reduce){ #bali-hero .aura{ animation:none } }
+
+    /* Copy */
+    #bali-hero .eyebrow{
+      display:inline-flex; gap:10px; align-items:center; padding:8px 12px; border-radius:999px;
+      background:linear-gradient(180deg, var(--white), var(--sky-50)); color:var(--ink-900);
+      font:600 13px/1.2 ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Arial; letter-spacing:.25px; box-shadow:var(--shadow);
+    }
+    #bali-hero .eyebrow .dot{ width:8px; height:8px; border-radius:999px; background:var(--accent); box-shadow:0 0 0 4px rgba(233,199,123,.25) }
+
+    #bali-hero h1{
+      margin:16px 0 10px; color:var(--ink-900);
+      font:800 clamp(28px,4.2vw,56px)/1.05 ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Arial; letter-spacing:-.5px;
+    }
+    #bali-hero .subhead{
+      color:var(--muted); max-width:58ch; margin-bottom:18px;
+      font:500 clamp(16px,1.6vw,18px)/1.6 ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Arial;
+    }
+
+    /* Badges */
+    #bali-hero .stats{ display:flex; flex-wrap:wrap; gap:10px 12px; margin:14px 0 22px; }
+    #bali-hero .badge{
+      display:inline-flex; gap:10px; align-items:center; padding:10px 12px; border-radius:999px;
+      background:var(--sky-50); color:var(--ink); border:1px solid var(--sky-200);
+      font:600 12.5px/1 ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Arial;
+    }
+    #bali-hero .badge .i{ width:18px; height:18px; border-radius:6px; display:grid; place-items:center; background:var(--ink); color:var(--white); font-size:11px; }
+
+    /* CTAs */
+    #bali-hero .cta-row{ display:flex; flex-wrap:wrap; gap:12px; align-items:center; }
+    #bali-hero .btn{
+      -webkit-tap-highlight-color:transparent; appearance:none; border:none; outline:none; cursor:pointer;
+      border-radius:14px; padding:14px 20px; min-width:170px;
+      display:inline-flex; gap:10px; align-items:center; justify-content:center;
+      font:800 15px/1 ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Arial;
+      transition:transform .2s ease, box-shadow .2s ease, background .25s ease, color .25s ease;
+    }
+    #bali-hero .btn-primary{
+      background:linear-gradient(180deg, var(--ink), var(--ink-900)); color:var(--white);
+      box-shadow:0 12px 30px rgba(11,96,96,.18), 0 3px 10px rgba(11,96,96,.15);
+    }
+    #bali-hero .btn-primary:hover{ transform:translateY(-1px); box-shadow:0 16px 34px rgba(11,96,96,.22), 0 6px 16px rgba(11,96,96,.18) }
+    #bali-hero .btn-ghost{
+      background:linear-gradient(180deg, var(--white), var(--sky-50)); color:var(--ink-900);
+      border:1px solid var(--sky-200); box-shadow:var(--shadow);
+    }
+    #bali-hero .btn-ghost:hover{ transform:translateY(-1px) }
+    #bali-hero .hint{ font:600 12px/1.4 ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Arial; color:var(--muted) }
+
+    /* Spots */
+    #bali-hero .spots{ display:flex; align-items:center; gap:12px; margin-top:14px; color:var(--ink-900); font:700 13px/1 ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Arial }
+    #bali-hero .meter{ --h:9px; --w:180px; height:var(--h); width:var(--w); border-radius:999px; background:var(--sky-200); overflow:hidden; box-shadow:inset 0 0 0 1px rgba(0,0,0,.04) }
+    #bali-hero .meter > b{ display:block; height:100%; width:0%; background:linear-gradient(90deg, var(--accent), #f0dca3); border-radius:inherit; transition:width .8s cubic-bezier(.2,.75,.2,1) }
+
+    /* Countdown */
+    #bali-hero .countdown{ display:flex; gap:10px; margin:14px 0 0 }
+    #bali-hero .cd{ padding:10px 12px; min-width:74px; text-align:center; background:var(--white); border:1px solid var(--sky-200); border-radius:12px; box-shadow:var(--shadow) }
+    #bali-hero .cd b{ display:block; color:var(--ink-900); font:800 18px/1.1 ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Arial }
+    #bali-hero .cd span{ display:block; margin-top:3px; color:var(--muted); font:600 11px/1.2 ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Arial }
+
+    /* Media */
+    #bali-hero .media{ position:relative; border-radius:var(--radius-xl); overflow:clip; background:var(--sky-50); border:1px solid var(--sky-200); box-shadow:var(--shadow) }
+    #bali-hero .media .img{ position:relative; aspect-ratio:16/10; width:100%; object-fit:cover; display:block; filter:saturate(1.05) contrast(1.02); transform:scale(1.01) }
+    #bali-hero .media .overlay{ position:absolute; inset:0; background:linear-gradient(180deg, rgba(11,96,96,.0), rgba(11,96,96,.08) 65%, rgba(11,96,96,.18)); mix-blend-mode:multiply }
+    #bali-hero .media .label{
+      position:absolute; left:16px; bottom:14px; display:inline-flex; gap:10px; align-items:center;
+      background:rgba(255,255,255,.92); color:var(--ink-900); padding:10px 12px; border-radius:12px; border:1px solid var(--sky-200); font:700 12px/1 ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Arial; box-shadow:var(--shadow)
+    }
+    #bali-hero .media .label .dot{ width:10px; height:10px; border-radius:999px; background:var(--accent) }
+
+    #bali-hero .btn:focus-visible{ outline:none; box-shadow:var(--ring) }
+  </style>
+
+  <div class="bg" aria-hidden="true"></div>
+  <div class="aura" aria-hidden="true"></div>
+
+  <div class="container">
+    <div class="copy">
+      <div class="eyebrow"><span class="dot" aria-hidden="true"></span> Bali • Dec 6–12, 2025 • Intimate group (max 8)</div>
+      <h1>Bali Chakra Sound&nbsp;Healing Retreat</h1>
+      <p class="subhead">
+        Choose your path: <strong>5-Day Healing & Renewal</strong> ($3,997) or the <strong>7-Day Sound & Energy Mastery Certification</strong> ($5,997).
+        A guided journey with Tibetan bowl techniques, chakra-based practices, and compassionate community.
+      </p>
+
+      <div class="stats" aria-label="Retreat highlights">
+        <div class="badge"><span class="i">⏱</span>5 or 7 days</div>
+        <div class="badge"><span class="i">📍</span>Ubud, Bali</div>
+        <div class="badge"><span class="i">🎓</span>Certification on 7-Day</div>
+        <div class="badge"><span class="i">🧘</span>Daily practices</div>
+      </div>
+
+      <div class="cta-row">
+        <a id="cta-apply" class="btn btn-primary" href="#apply">Apply Now</a>
+        <a id="cta-call" class="btn btn-ghost" href="#book-call">Book a Clarity Call</a>
+        <span class="hint">Secure your spot with a <strong>$750 deposit</strong>.</span>
+      </div>
+
+      <div class="spots" aria-live="polite">
+        <div class="meter" aria-label="Spots filled"><b style="width:0%"></b></div>
+        <span id="spots-text">8 spots available</span>
+      </div>
+
+      <div class="countdown" aria-live="polite" aria-label="Countdown to retreat start">
+        <div class="cd"><b id="cd-days">—</b><span>days</span></div>
+        <div class="cd"><b id="cd-hours">—</b><span>hours</span></div>
+        <div class="cd"><b id="cd-mins">—</b><span>mins</span></div>
+        <div class="cd"><b id="cd-secs">—</b><span>secs</span></div>
+      </div>
+    </div>
+
+    <figure class="media" role="img" aria-label="Retreat ambience — Tibetan bowls and serene practice in Bali">
+      <img class="img" id="hero-img" alt="" />
+      <div class="overlay" aria-hidden="true"></div>
+      <figcaption class="label"><span class="dot"></span> Bali • Sacred sound & energy work</figcaption>
+    </figure>
+  </div>
+
+  <script>
+    (function(){
+      const root = document.getElementById('bali-hero');
+      if(!root) return;
+
+      // Read data-* attributes
+      const applyURL = root.getAttribute('data-apply-url') || '#apply';
+      const callURL  = root.getAttribute('data-call-url')  || '#book-call';
+      const startISO = root.getAttribute('data-event-start') || '2025-12-06T09:00:00+08:00';
+      const total    = parseInt(root.getAttribute('data-spots-total') || '8', 10);
+      const left     = parseInt(root.getAttribute('data-spots-left')  || '8', 10);
+      const heroImg  = root.getAttribute('data-hero-img') || '';
+      const overlay  = root.getAttribute('data-overlay') === 'true';
+
+      // Wire buttons
+      const a1 = root.querySelector('#cta-apply'); if(a1) a1.href = applyURL;
+      const a2 = root.querySelector('#cta-call');  if(a2) a2.href = callURL;
+
+      // Hero image
+      const imgEl = root.querySelector('#hero-img');
+      if (imgEl && heroImg){
+        imgEl.style.opacity = '0';
+        imgEl.style.transition = 'opacity .6s ease';
+        imgEl.addEventListener('load', ()=> imgEl.style.opacity = '1');
+        imgEl.src = heroImg;
+      }
+      if (!overlay){ const ov = root.querySelector('.overlay'); ov && ov.remove(); }
+
+      // Spots meter
+      const used = Math.max(0, Math.min(total, total - left));
+      const pct  = total ? (used / total) * 100 : 0;
+      const bar  = root.querySelector('.meter > b');
+      const text = root.querySelector('#spots-text');
+      if (bar){ requestAnimationFrame(()=> bar.style.width = Math.min(100, Math.max(0, pct)) + '%'); }
+      if (text){
+        if(left <= 0) text.textContent = 'Waitlist only';
+        else if(left === 1) text.textContent = '1 spot left';
+        else text.textContent = left + ' spots available';
+      }
+
+      // Countdown
+      const dEl = root.querySelector('#cd-days');
+      const hEl = root.querySelector('#cd-hours');
+      const mEl = root.querySelector('#cd-mins');
+      const sEl = root.querySelector('#cd-secs');
+      const target = new Date(startISO);
+
+      function tick(){
+        const now = new Date();
+        let t = Math.max(0, target - now);
+        const days  = Math.floor(t / 86400000); t -= days  * 86400000;
+        const hours = Math.floor(t / 3600000);  t -= hours * 3600000;
+        const mins  = Math.floor(t / 60000);    t -= mins  * 60000;
+        const secs  = Math.floor(t / 1000);
+
+        if(dEl) dEl.textContent = days;
+        if(hEl) hEl.textContent = String(hours).padStart(2,'0');
+        if(mEl) mEl.textContent = String(mins).padStart(2,'0');
+        if(sEl) sEl.textContent = String(secs).padStart(2,'0');
+      }
+      tick(); setInterval(tick, 1000);
+
+      // Subtle enter animations
+      const obs = new IntersectionObserver((entries)=>{
+        entries.forEach(e=>{
+          if(e.isIntersecting){
+            e.target.style.transform = 'translateY(0)';
+            e.target.style.opacity = '1';
+            obs.unobserve(e.target);
+          }
+        });
+      }, { threshold:.15 });
+
+      root.querySelectorAll('.copy, .media').forEach(el=>{
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(10px)';
+        el.style.transition = 'opacity .5s ease, transform .5s ease';
+        obs.observe(el);
+      });
+
+      // Reduced motion
+      try{
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+          root.querySelectorAll('*').forEach(el => el.style.transition = 'none');
+        }
+      }catch(e){}
+    })();
+  </script>
+</section>

@@ -1,0 +1,455 @@
+<!-- =========================================================
+  ZENQUENCY HEALING • BALI RETREAT — SECTION 4 (PRICING & ENROLLMENT)
+  - Namespaced to #bali-pricing (no global CSS/JS leakage)
+  - Brand palette (deep teal + soft gold), clean grid, subtle motion
+  - Dynamic toggles: Track (5-Day / 7-Day) + Payment (Deposit / Full)
+  - Live calculation of "Due Today" + "Remaining"
+  - Per-track spot meters + CTAs wired via data-attributes
+  - Accessible (ARIA, keyboard), respects Reduced Motion
+========================================================= -->
+<section id="bali-pricing"
+  aria-label="Tuition and enrollment"
+  data-apply-url="#apply"                               <!-- Application Page -->
+               <!-- Replace with Zenler/checkout link -->
+
+  <style>
+    /* ---------- Scope ---------- */
+    #bali-pricing, #bali-pricing * { box-sizing: border-box; }
+
+    /* ---------- Brand palette ---------- */
+    #bali-pricing{
+      --ink:#0B6060; --ink-900:#084B4B; --ink-700:#0E7E7E;
+      --muted:#5C6E6E; --accent:#E9C77B; --white:#fff;
+      --sky-25:#F5FBFA; --sky-50:#ECF7F6; --sky-100:#DFF2F0; --sky-200:#CAE7E4;
+      --shadow: 0 10px 34px rgba(11,96,96,.12), 0 4px 14px rgba(11,96,96,.10);
+      --radius-xl: 28px; --radius-lg: 18px; --radius-md: 14px; --radius-sm: 10px;
+      --ring: 0 0 0 8px rgba(11,96,96,.10);
+      position: relative; isolation: isolate; overflow: clip;
+      padding: clamp(42px,6vw,78px) clamp(18px,5vw,40px);
+      background:
+        radial-gradient(1100px 560px at 88% 8%, rgba(233,199,123,.16), transparent 60%),
+        radial-gradient(900px 520px at 8% 88%, rgba(11,96,96,.10), transparent 60%),
+        linear-gradient(180deg, var(--sky-25), var(--sky-100));
+    }
+    #bali-pricing .grain::before{
+      content:""; position:absolute; inset:-20%;
+      background-image:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="160" height="160"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="2" stitchTiles="stitch"/></filter><rect width="100%" height="100%" filter="url(%23n)" opacity=".045"/></svg>');
+      background-size:160px 160px; pointer-events:none; mix-blend-mode:multiply;
+    }
+
+    /* ---------- Header ---------- */
+    #bali-pricing .header{ max-width:1040px; margin:0 auto 22px; text-align:center; }
+    #bali-pricing .eyebrow{
+      display:inline-flex; gap:10px; align-items:center; padding:8px 12px; border-radius:999px;
+      background: linear-gradient(180deg, var(--white), var(--sky-50));
+      border:1px solid var(--sky-200); color:var(--ink-900); box-shadow:var(--shadow);
+      font:700 12px/1 ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Arial; letter-spacing:.3px;
+    }
+    #bali-pricing .eyebrow .dot{ width:8px; height:8px; border-radius:999px; background:var(--accent); box-shadow:0 0 0 4px rgba(233,199,123,.28); }
+    #bali-pricing h2{
+      margin:16px 0 10px; color:var(--ink-900);
+      font: 800 clamp(26px,3.3vw,40px)/1.08 ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Arial;
+      letter-spacing:-.3px;
+    }
+    #bali-pricing .subhead{
+      margin:0 auto; max-width:70ch; color:var(--muted);
+      font:500 clamp(15px,1.6vw,18px)/1.7 ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Arial;
+    }
+
+    /* ---------- Selector bar ---------- */
+    #bali-pricing .selector{
+      max-width:1120px; margin: 20px auto 0; display:grid; gap:12px;
+      grid-template-columns: 1fr 1fr;
+    }
+    @media (max-width: 880px){ #bali-pricing .selector{ grid-template-columns:1fr; } }
+    #bali-pricing .seg{
+      background: linear-gradient(180deg, var(--white), var(--sky-50));
+      border:1px solid var(--sky-200); border-radius: var(--radius-xl); box-shadow: var(--shadow);
+      padding: 10px;
+    }
+    #bali-pricing .seg label{
+      display:inline-flex; align-items:center; gap:10px; cursor:pointer;
+      background: var(--white); border:1px solid var(--sky-200); border-radius: 999px;
+      padding:10px 12px; margin:6px; user-select:none;
+      font:800 13px/1 ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Arial; color:var(--ink-900);
+      transition: transform .2s ease, box-shadow .2s ease, background .25s ease;
+    }
+    #bali-pricing .seg input{ appearance:none; width:0; height:0; position:absolute; }
+    #bali-pricing .seg label[data-checked="true"]{
+      background: linear-gradient(180deg, var(--ink), var(--ink-900)); color: var(--white);
+      box-shadow: 0 10px 24px rgba(11,96,96,.18), 0 4px 12px rgba(11,96,96,.16);
+    }
+
+    /* ---------- Summary card ---------- */
+    #bali-pricing .summary{
+      max-width:1120px; margin: 14px auto 0;
+      background: linear-gradient(180deg, var(--white), var(--sky-50));
+      border:1px solid var(--sky-200); border-radius: var(--radius-xl); box-shadow: var(--shadow);
+      padding: clamp(16px, 2.6vw, 22px);
+      display:grid; grid-template-columns: 1.1fr .9fr; gap:16px; align-items:center;
+    }
+    @media (max-width: 880px){ #bali-pricing .summary{ grid-template-columns:1fr; } }
+    #bali-pricing .fig{
+      display:flex; align-items:center; gap:16px; flex-wrap:wrap;
+    }
+    #bali-pricing .pill{
+      display:inline-flex; align-items:center; gap:10px; padding:8px 12px; border-radius:999px;
+      background: var(--white); border:1px solid var(--sky-200); color:var(--ink-900); box-shadow:var(--shadow);
+      font: 800 12px/1 ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Arial;
+    }
+    #bali-pricing .due{
+      display:grid; gap:6px; color:var(--ink-900);
+    }
+    #bali-pricing .due b{ font: 900 clamp(22px,3.2vw,32px)/1.05 ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Arial; letter-spacing: -.2px; }
+    #bali-pricing .due span{ font: 700 12.5px/1.2 ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Arial; color:var(--muted); }
+
+    #bali-pricing .actions{ display:flex; flex-wrap:wrap; gap:10px; justify-content:flex-end; }
+    @media (max-width: 880px){ #bali-pricing .actions{ justify-content:flex-start; } }
+    #bali-pricing .btn{
+      -webkit-tap-highlight-color: transparent; appearance:none; border:none; outline:none; cursor:pointer;
+      border-radius: 12px; padding: 14px 18px; min-width: 170px;
+      display:inline-flex; align-items:center; justify-content:center; gap:10px;
+      font: 800 14px/1 ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Arial;
+      transition: transform .2s ease, box-shadow .2s ease, background .25s ease, color .25s ease;
+    }
+    #bali-pricing .btn-primary{ background: linear-gradient(180deg, var(--ink), var(--ink-900)); color: var(--white); box-shadow: 0 12px 28px rgba(11,96,96,.18), 0 4px 12px rgba(11,96,96,.16); }
+    #bali-pricing .btn-ghost{ background: linear-gradient(180deg, var(--white), var(--sky-50)); color: var(--ink-900); border:1px solid var(--sky-200); box-shadow: var(--shadow); }
+    #bali-pricing .btn:focus-visible{ box-shadow: var(--ring); }
+    #bali-pricing .fine{ font:600 12px/1.4 ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Arial; color:var(--muted); margin-top:6px; }
+
+    /* ---------- Cards (per track) ---------- */
+    #bali-pricing .grid{
+      max-width:1120px; margin: 18px auto 0; display:grid; gap:16px; grid-template-columns: 1fr 1fr;
+    }
+    @media (max-width: 980px){ #bali-pricing .grid{ grid-template-columns: 1fr; } }
+    #bali-pricing .card{
+      position:relative; overflow:clip; background: linear-gradient(180deg, var(--white), var(--sky-50));
+      border:1px solid var(--sky-200); border-radius: var(--radius-xl); box-shadow: var(--shadow);
+      transition: transform .25s ease, box-shadow .25s ease;
+    }
+    #bali-pricing .card:hover{ transform: translateY(-2px); box-shadow: 0 14px 34px rgba(11,96,96,.18), 0 6px 16px rgba(11,96,96,.12); }
+    #bali-pricing .cap{
+      display:flex; align-items:center; justify-content:space-between; gap:16px;
+      padding: 18px; background: rgba(233,199,123,.12); border-bottom: 1px solid rgba(233,199,123,.28);
+    }
+    #bali-pricing .cap b{ color:var(--ink-900); font: 800 16px/1.2 ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Arial; }
+    #bali-pricing .cap .price{ display:flex; align-items:baseline; gap:8px; color:var(--ink-900); }
+    #bali-pricing .cap .price .amt{ font:900 22px/1 ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Arial; }
+    #bali-pricing .cap .price .note{ font:700 11px/1 ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Arial; color:var(--muted); }
+
+    #bali-pricing .body{ padding: clamp(16px, 2.4vw, 22px); }
+    #bali-pricing .bullets{ list-style:none; padding:0; margin: 8px 0 14px; display:grid; gap:10px; }
+    #bali-pricing .bullets li{ display:flex; gap:10px; color:var(--ink-900); font:600 14px/1.5 ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Arial; }
+    #bali-pricing .ck{ width:20px; height:20px; border-radius:6px; display:grid; place-items:center; background:var(--ink); color:var(--white); font-size:12px; flex:0 0 auto; }
+
+    #bali-pricing .spots{ display:flex; align-items:center; gap:10px; margin: 4px 0 12px; color:var(--ink-900); font:700 12.5px/1 ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Arial; }
+    #bali-pricing .meter{ --h:9px; height:var(--h); width:180px; border-radius:999px; background:var(--sky-200); overflow:hidden; box-shadow: inset 0 0 0 1px rgba(0,0,0,.04); }
+    #bali-pricing .meter > b{ display:block; height:100%; width:0%; background: linear-gradient(90deg, var(--accent), #f0dca3); border-radius:inherit; transition: width .8s cubic-bezier(.2,.75,.2,1); }
+    #bali-pricing .card .cta-row{ display:flex; flex-wrap:wrap; gap:10px; }
+
+    /* ---------- Comparison table ---------- */
+    #bali-pricing .table{
+      max-width:1120px; margin: 18px auto 0; background: var(--white);
+      border:1px solid var(--sky-200); border-radius: var(--radius-xl); box-shadow: var(--shadow); overflow:hidden;
+    }
+    #bali-pricing table{ width:100%; border-collapse: collapse; }
+    #bali-pricing thead th{
+      background: linear-gradient(180deg, var(--white), var(--sky-50));
+      color:var(--ink-900); font:800 13px/1 ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Arial;
+      padding:14px; border-bottom:1px solid var(--sky-200);
+    }
+    #bali-pricing tbody td{
+      padding:12px 14px; border-bottom:1px solid var(--sky-200); color:var(--ink-900);
+      font:600 13px/1.4 ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Arial;
+    }
+    #bali-pricing tbody tr:nth-child(odd){ background: var(--sky-50); }
+    #bali-pricing .tck{
+      display:inline-grid; place-items:center; width:18px; height:18px; border-radius:6px; background:var(--ink); color:var(--white); font-size:12px;
+    }
+
+    /* ---------- Notes ---------- */
+    #bali-pricing .notes{
+      max-width:1120px; margin: 14px auto 0; color:var(--muted);
+      font:600 12.5px/1.5 ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Arial;
+    }
+
+    /* ---------- Reveal ---------- */
+    #bali-pricing .reveal{ opacity:0; transform: translateY(10px); transition: opacity .5s ease, transform .5s ease; }
+    #bali-pricing .reveal.in{ opacity:1; transform: translateY(0); }
+
+    @media (prefers-reduced-motion: reduce){
+      #bali-pricing *{ transition:none !important; animation:none !important; }
+    }
+  </style>
+
+  <div class="grain"></div>
+
+  <!-- Header -->
+  <div class="header reveal">
+    <span class="eyebrow"><span class="dot" aria-hidden="true"></span> Tuition & Enrollment</span>
+    <h2>Reserve your place — intimate group, clear pricing</h2>
+    <p class="subhead">Choose the <strong>5-Day Healing & Renewal</strong> or the <strong>7-Day Sound & Energy Mastery Certification</strong>. Secure your seat with a <strong>$750 non-refundable deposit</strong> or pay in full before arrival.</p>
+  </div>
+
+  <!-- Selector bar -->
+  <div class="selector">
+    <div class="seg reveal" role="group" aria-label="Select retreat track">
+      <label id="opt-track-5"><input type="radio" name="track" value="5"> 5-Day Healing & Renewal</label>
+      <label id="opt-track-7"><input type="radio" name="track" value="7"> 7-Day Mastery Certification</label>
+    </div>
+    <div class="seg reveal" role="group" aria-label="Select payment type">
+      <label id="opt-pay-dep"><input type="radio" name="paytype" value="deposit"> Pay $750 deposit today</label>
+      <label id="opt-pay-full"><input type="radio" name="paytype" value="full"> Pay in full today</label>
+    </div>
+  </div>
+
+  <!-- Summary -->
+  <div class="summary reveal" aria-live="polite">
+    <div class="fig">
+      <span class="pill" id="sum-track">Track: —</span>
+      <span class="pill" id="sum-dates">Dates: —</span>
+      <span class="pill" id="sum-mode">Payment: —</span>
+    </div>
+    <div class="due">
+      <b id="sum-due">Due today —</b>
+      <span id="sum-rem">Remaining before arrival —</span>
+      <div class="actions">
+        <a class="btn btn-primary" id="sum-pay" href="#">Complete Payment</a>
+        <a class="btn btn-ghost" id="sum-apply" href="#apply">Apply Instead</a>
+      </div>
+      <div class="fine">Deposits are non-refundable. You’ll receive an email receipt and logistics after payment.</div>
+    </div>
+  </div>
+
+  <!-- Per-track cards -->
+  <div class="grid">
+    <!-- 5-Day -->
+    <article class="card reveal" aria-labelledby="c5-title">
+      <header class="cap">
+        <b id="c5-title">5-Day Healing & Renewal</b>
+        <div class="price"><span class="amt" id="c5-price">$3,997</span><span class="note" id="c5-dates">Dec 6–10</span></div>
+      </header>
+      <div class="body">
+        <ul class="bullets">
+          <li><span class="ck">✓</span>Daily practice 9:00 AM–3:00 PM</li>
+          <li><span class="ck">✓</span>Heart → Root/Sacral → Solar/Throat → Third Eye/Crown → Integration</li>
+          <li><span class="ck">✓</span>Closing ceremony & community circle</li>
+        </ul>
+        <div class="spots">
+          <div class="meter" aria-label="5-Day spots filled"><b id="c5-meter"></b></div>
+          <span id="c5-left">—</span>
+        </div>
+        <div class="cta-row">
+          <a class="btn btn-primary" id="c5-deposit" href="#">Pay $750 Deposit</a>
+          <a class="btn btn-ghost" id="c5-full" href="#">Pay in Full</a>
+          <a class="btn btn-ghost" id="c5-apply" href="#apply">Apply</a>
+        </div>
+      </div>
+    </article>
+
+    <!-- 7-Day -->
+    <article class="card reveal" aria-labelledby="c7-title">
+      <header class="cap">
+        <b id="c7-title">7-Day Sound & Energy Mastery Certification</b>
+        <div class="price"><span class="amt" id="c7-price">$5,997</span><span class="note" id="c7-dates">Dec 6–12</span></div>
+      </header>
+      <div class="body">
+        <ul class="bullets">
+          <li><span class="ck">✓</span>Includes all 5-Day sessions + daily 3:00–5:00 PM training</li>
+          <li><span class="ck">✓</span>Two extra days: supervised practice & certification ceremony</li>
+          <li><span class="ck">✓</span>Bonus: Soul Tone Reading (online after retreat)</li>
+        </ul>
+        <div class="spots">
+          <div class="meter" aria-label="7-Day spots filled"><b id="c7-meter"></b></div>
+          <span id="c7-left">—</span>
+        </div>
+        <div class="cta-row">
+          <a class="btn btn-primary" id="c7-deposit" href="#">Pay $750 Deposit</a>
+          <a class="btn btn-ghost" id="c7-full" href="#">Pay in Full</a>
+          <a class="btn btn-ghost" id="c7-apply" href="#apply">Apply</a>
+        </div>
+      </div>
+    </article>
+  </div>
+
+  <!-- Comparison table -->
+  <div class="table reveal" role="region" aria-label="Compare inclusions">
+    <table>
+      <thead>
+        <tr>
+          <th style="text-align:left">What’s included</th>
+          <th>5-Day</th>
+          <th>7-Day</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Daily 9:00–3:00 chakra practice</td>
+          <td style="text-align:center"><span class="tck">✓</span></td>
+          <td style="text-align:center"><span class="tck">✓</span></td>
+        </tr>
+        <tr>
+          <td>Afternoon 3:00–5:00 training</td>
+          <td style="text-align:center">—</td>
+          <td style="text-align:center"><span class="tck">✓</span></td>
+        </tr>
+        <tr>
+          <td>Two additional certification days</td>
+          <td style="text-align:center">—</td>
+          <td style="text-align:center"><span class="tck">✓</span></td>
+        </tr>
+        <tr>
+          <td>Closing ceremony & community circle</td>
+          <td style="text-align:center"><span class="tck">✓</span></td>
+          <td style="text-align:center"><span class="tck">✓</span></td>
+        </tr>
+        <tr>
+          <td>Bonus: Soul Tone Reading (post-retreat)</td>
+          <td style="text-align:center">—</td>
+          <td style="text-align:center"><span class="tck">✓</span></td>
+        </tr>
+        <tr>
+          <td>Certification upon completion</td>
+          <td style="text-align:center">—</td>
+          <td style="text-align:center"><span class="tck">✓</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Notes -->
+  <div class="notes reveal">
+    <p><strong>Important:</strong> Retreat is limited to <strong>8 participants</strong>. Deposits are <strong>non-refundable</strong>. Full tuition must be received before arrival in Bali for legal/travel reasons. After payment, you’ll receive logistics and a private WhatsApp invite for the cohort.</p>
+  </div>
+
+  <script>
+    (function(){
+      const R = document.getElementById('bali-pricing');
+      if(!R) return;
+
+      /* ---------- Helpers ---------- */
+      const $$ = (sel, ctx=R) => Array.from(ctx.querySelectorAll(sel));
+      const $  = (sel, ctx=R) => ctx.querySelector(sel);
+      const money = n => '$' + (Math.round(n * 100)/100).toLocaleString();
+
+      /* ---------- Data ---------- */
+      const price5   = parseFloat(R.getAttribute('data-price-5') || '3997');
+      const price7   = parseFloat(R.getAttribute('data-price-7') || '5997');
+      const deposit  = parseFloat(R.getAttribute('data-deposit-amount') || '750');
+      const dates5   = R.getAttribute('data-dates-5') || 'Dec 6–10, 2025';
+      const dates7   = R.getAttribute('data-dates-7') || 'Dec 6–12, 2025';
+      const links = {
+        apply: R.getAttribute('data-apply-url') || '#apply',
+        '5-deposit': R.getAttribute('data-pay-5-deposit-url') || '#',
+        '5-full':    R.getAttribute('data-pay-5-full-url')    || '#',
+        '7-deposit': R.getAttribute('data-pay-7-deposit-url') || '#',
+        '7-full':    R.getAttribute('data-pay-7-full-url')    || '#'
+      };
+
+      /* ---------- Set static UI text ---------- */
+      $('#c5-price').textContent = money(price5);
+      $('#c7-price').textContent = money(price7);
+      $('#c5-dates').textContent = dates5.replace(', 2025','');
+      $('#c7-dates').textContent = dates7.replace(', 2025','');
+
+      $('#c5-deposit').href = links['5-deposit'];
+      $('#c5-full').href    = links['5-full'];
+      $('#c5-apply').href   = links.apply;
+
+      $('#c7-deposit').href = links['7-deposit'];
+      $('#c7-full').href    = links['7-full'];
+      $('#c7-apply').href   = links.apply;
+
+      $('#sum-apply').href  = links.apply;
+
+      /* ---------- Spots meters ---------- */
+      function setMeter(prefix){
+        const total = parseInt(R.getAttribute(`data-spots${prefix}-total`) || '4', 10);
+        const left  = parseInt(R.getAttribute(`data-spots${prefix}-left`)  || '4', 10);
+        const used  = Math.max(0, Math.min(total, total - left));
+        const pct   = total ? (used/total)*100 : 0;
+        const bar   = $(`#c${prefix}-meter`);
+        const txt   = $(`#c${prefix}-left`);
+        if(bar){ requestAnimationFrame(()=> bar.style.width = Math.min(100, Math.max(0, pct)) + '%'); }
+        if(txt){
+          if(left <= 0) txt.textContent = 'Waitlist only';
+          else if(left === 1) txt.textContent = '1 spot left';
+          else txt.textContent = `${left} spots available`;
+        }
+      }
+      setMeter(5); setMeter(7);
+
+      /* ---------- Toggle state ---------- */
+      const trackRadios = [
+        {el: $('#opt-track-5'), val:'5'},
+        {el: $('#opt-track-7'), val:'7'}
+      ];
+      const payRadios = [
+        {el: $('#opt-pay-dep'),  val:'deposit'},
+        {el: $('#opt-pay-full'), val:'full'}
+      ];
+
+      // Default selections
+      function setChecked(group, val){
+        group.forEach(g=>{
+          const checked = g.val === val;
+          g.el.dataset.checked = checked ? 'true' : 'false';
+          const input = g.el.querySelector('input'); if(input){ input.checked = checked; }
+        });
+      }
+      setChecked(trackRadios, '5');
+      setChecked(payRadios, 'deposit');
+
+      // Update summary + primary CTA
+      function refreshSummary(){
+        const track = trackRadios.find(g => g.el.dataset.checked === 'true')?.val || '5';
+        const pay   = payRadios.find(g => g.el.dataset.checked === 'true')?.val || 'deposit';
+        const P     = track === '5' ? price5 : price7;
+        const due   = (pay === 'deposit') ? deposit : P;
+        const rem   = Math.max(0, P - (pay === 'deposit' ? deposit : P));
+
+        $('#sum-track').textContent = `Track: ${track==='5' ? '5-Day Healing & Renewal' : '7-Day Mastery Certification'}`;
+        $('#sum-dates').textContent = `Dates: ${track==='5' ? dates5 : dates7}`;
+        $('#sum-mode').textContent  = `Payment: ${pay==='deposit' ? 'Deposit today' : 'Pay in full today'}`;
+
+        $('#sum-due').textContent = `Due today ${money(due)}`;
+        $('#sum-rem').textContent = rem > 0 ? `Remaining before arrival ${money(rem)}` : 'No remaining balance';
+
+        const payLink = links[`${track}-${pay === 'deposit' ? 'deposit' : 'full'}`];
+        const btn = $('#sum-pay');
+        btn.href = payLink || '#';
+        btn.textContent = (pay === 'deposit') ? `Pay ${money(deposit)} Deposit` : `Pay ${money(P)} in Full`;
+      }
+      refreshSummary();
+
+      // Click handlers
+      trackRadios.forEach(g=>{
+        g.el.addEventListener('click', ()=>{
+          setChecked(trackRadios, g.val); refreshSummary();
+        });
+        g.el.addEventListener('keydown', (e)=>{ if(e.key==='Enter' || e.key===' '){ e.preventDefault(); g.el.click(); } });
+      });
+      payRadios.forEach(g=>{
+        g.el.addEventListener('click', ()=>{
+          setChecked(payRadios, g.val); refreshSummary();
+        });
+        g.el.addEventListener('keydown', (e)=>{ if(e.key==='Enter' || e.key===' '){ e.preventDefault(); g.el.click(); } });
+      });
+
+      /* ---------- Reveal on view ---------- */
+      const obs = new IntersectionObserver((entries)=>{
+        entries.forEach(e=>{
+          if(e.isIntersecting){ e.target.classList.add('in'); obs.unobserve(e.target); }
+        });
+      }, { threshold:.18 });
+      $$('.reveal').forEach(el=> obs.observe(el));
+
+      /* ---------- Respect reduced motion ---------- */
+      try {
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+          $$('#bali-pricing *').forEach(el => el.style.transition = 'none');
+        }
+      } catch(e){}
+    })();
+  </script>
+</section>

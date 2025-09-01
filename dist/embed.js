@@ -1,55 +1,58 @@
-<!-- dist/embed.js -->
-<script>
-(function(){
-  // --- repo config ---
-  var ORG   = 'haseebservises-ops';
-  var REPO  = 'zenq-embeds';
-  var REF   = 'main'; // or a tag like v1.0.0 later
-  var BASE  = 'https://cdn.jsdelivr.net/gh/'+ORG+'/'+REPO+'@'+REF+'/dist/';
+/*! ZENQ embeds loader */
+(function () {
+  // ----- config (repo + ref) -----
+  var ORG  = 'haseebservises-ops';
+  var REPO = 'zenq-embeds';
+  var REF  = 'main'; // later you can tag, e.g. v1.0.0
 
-  // which section to load?
-  var me = document.currentScript || (function(){var s=document.getElementsByTagName('script');return s[s.length-1];})();
-  var section  = (me.getAttribute('data-section')||'').trim();
-  var mountSel = (me.getAttribute('data-mount')||'').trim();
-  if(!section){ console.error('[zenq] Missing data-section'); return; }
+  // Base points at /dist/
+  var BASE = 'https://cdn.jsdelivr.net/gh/' + ORG + '/' + REPO + '@' + REF + '/dist/';
 
-  // inject base CSS once
-  if(!document.querySelector('link[data-zenq-base]')){
-    var css = document.createElement('link');
-    css.rel = 'stylesheet';
-    css.href = BASE + 'zenq.css?v=' + Date.now();
-    css.setAttribute('data-zenq-base','');
-    document.head.appendChild(css);
-  }
+  // The <script> tag that loaded this file
+  var me = document.currentScript || (function () {
+    var s = document.getElementsByTagName('script'); return s[s.length - 1];
+  })();
 
-  // find/create mount before this script
-  var mount = mountSel ? document.querySelector(mountSel) : null;
-  if(!mount){
+  // Which section to load (filename in /dist/sections/)
+  var section = (me && me.getAttribute('data-section')) || 'bali-hero';
+
+  // Optional custom mount via data-root. If not present, create #zenq-mount before the script.
+  var rootSel = (me && me.getAttribute('data-root')) || '#zenq-mount';
+  var mount = document.querySelector(rootSel);
+  if (!mount) {
     mount = document.createElement('div');
-    mount.id = 'zenq-mount-' + section;
+    mount.id = rootSel.replace('#', '');
     me.parentNode.insertBefore(mount, me);
   }
 
-  // fetch the section HTML
-  fetch(BASE + 'sections/' + section + '.html?v=' + Date.now(), {cache:'no-store'})
-    .then(function(r){ if(!r.ok) throw new Error('HTTP ' + r.status); return r.text(); })
-    .then(function(html){
+  // Add base CSS once
+  if (!document.getElementById('zenq-css')) {
+    var link = document.createElement('link');
+    link.id = 'zenq-css';
+    link.rel = 'stylesheet';
+    link.href = BASE + 'zenq.css';                 // NOTE: no extra "dist/" here
+    document.head.appendChild(link);
+  }
+
+  // Fetch the section HTML and mount it
+  fetch(BASE + 'sections/' + section + '.html', { cache: 'no-store' }) // NOTE: .../dist/sections/...
+    .then(function (r) { if (!r.ok) throw new Error('HTML ' + r.status); return r.text(); })
+    .then(function (html) {
       mount.innerHTML = html;
 
-      // execute any <script> tags inside the loaded HTML
+      // Execute any <script> tags inside the section so its JS runs
       var scripts = mount.querySelectorAll('script');
-      scripts.forEach(function(s){
+      scripts.forEach(function (s) {
         var n = document.createElement('script');
-        if(s.src){ n.src = s.src; if(s.defer) n.defer = true; }
+        if (s.src) { n.src = s.src; }
         else { n.textContent = s.textContent; }
-        if(s.type) n.type = s.type;
+        if (s.type) n.type = s.type;
         document.body.appendChild(n);
-        s.remove();
+        s.parentNode.removeChild(s);
       });
     })
-    .catch(function(err){
-      console.error('[zenq] Failed to load section "'+section+'":', err);
+    .catch(function (err) {
+      console.error('[ZENQ] Failed to load section:', err);
       mount.innerHTML = '<div style="color:#b00;font-weight:700">Failed to load section.</div>';
     });
 })();
-</script>

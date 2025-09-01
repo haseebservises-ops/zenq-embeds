@@ -1,0 +1,402 @@
+<!-- =========================================================
+  ZENQUENCY HEALING • BALI RETREAT — SECTION 3 (SOCIAL PROOF • ISOLATED)
+  - All classes prefixed with sp- to prevent collisions
+  - No comments inside the <section> tag
+========================================================= -->
+<section id="bali-socialproof"
+  aria-label="Student stories and testimonials"
+  data-apply-url="#apply"
+  data-call-url="#book-call">
+
+  <style>
+    /* ---------- Scope & Palette ---------- */
+    #bali-socialproof, #bali-socialproof * { box-sizing: border-box; }
+    #bali-socialproof{
+      --ink:#0B6060; --ink-900:#084B4B; --ink-700:#0E7E7E;
+      --muted:#5C6E6E; --accent:#E9C77B;
+      --sky-25:#F5FBFA; --sky-50:#ECF7F6; --sky-100:#DFF2F0; --sky-200:#CAE7E4;
+      --white:#fff;
+      --shadow: 0 10px 34px rgba(11,96,96,.12), 0 4px 14px rgba(11,96,96,.10);
+      --radius-xl: 28px; --radius-lg: 18px; --radius-md: 14px; --radius-sm: 10px;
+      --ring: 0 0 0 8px rgba(11,96,96,.10);
+      position: relative; isolation: isolate; overflow: clip;
+      padding: clamp(42px,6vw,78px) clamp(18px,5vw,40px);
+      background:
+        radial-gradient(1100px 540px at 88% 20%, rgba(233,199,123,.18), transparent 60%),
+        radial-gradient(900px 520px at 10% 85%, rgba(11,96,96,.10), transparent 60%),
+        linear-gradient(180deg, var(--sky-25), var(--sky-100));
+    }
+    #bali-socialproof .sp-grain:before{
+      content:""; position:absolute; inset:-20%;
+      background-image:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="160" height="160"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="2" stitchTiles="stitch"/></filter><rect width="100%" height="100%" filter="url(%23n)" opacity=".045"/></svg>');
+      background-size:160px 160px; mix-blend-mode:multiply; pointer-events:none;
+    }
+
+    /* ---------- Header ---------- */
+    #bali-socialproof .sp-header{ max-width:1040px; margin:0 auto 22px; text-align:center; position:relative; }
+    #bali-socialproof .sp-eyebrow{
+      display:inline-flex; gap:10px; align-items:center; padding:8px 12px;
+      background: linear-gradient(180deg, var(--white), var(--sky-50));
+      border:1px solid var(--sky-200); border-radius:999px; box-shadow: var(--shadow);
+      color:var(--ink-900); font:700 12px/1 ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Arial;
+      letter-spacing:.3px;
+    }
+    #bali-socialproof .sp-eyebrow .sp-dot{ width:8px; height:8px; border-radius:999px; background:var(--accent); box-shadow:0 0 0 4px rgba(233,199,123,.28); }
+    #bali-socialproof h2{
+      margin:16px 0 10px; color:var(--ink-900);
+      font: 800 clamp(26px,3.3vw,40px)/1.08 ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Arial;
+      letter-spacing:-.3px;
+    }
+    #bali-socialproof .sp-subhead{
+      margin:0 auto; max-width:70ch; color:var(--muted);
+      font:500 clamp(15px,1.6vw,18px)/1.7 ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Arial;
+    }
+
+    /* ---------- Carousel Shell ---------- */
+    #bali-socialproof .sp-shell{ max-width:1120px; margin: 26px auto 0; position:relative; }
+    #bali-socialproof .sp-viewport{
+      scroll-snap-type:x mandatory; overflow:auto; -webkit-overflow-scrolling:touch;
+      display:flex; gap:16px; padding: 6px 2px 8px;
+    }
+    #bali-socialproof .sp-viewport::-webkit-scrollbar{ height:10px; }
+    #bali-socialproof .sp-viewport::-webkit-scrollbar-thumb{ background:var(--sky-200); border-radius:999px; }
+    #bali-socialproof .sp-slide{
+      scroll-snap-align:center; flex: 0 0 86%; max-width:86%;
+      background: linear-gradient(180deg, var(--white), var(--sky-50));
+      border:1px solid var(--sky-200); border-radius: var(--radius-xl);
+      box-shadow: var(--shadow);
+      display:grid; grid-template-columns: 1.1fr .9fr; gap:16px;
+      padding: clamp(16px,2.5vw,22px);
+      transition: transform .25s ease, box-shadow .25s ease;
+    }
+    @media (min-width: 980px){ #bali-socialproof .sp-slide{ flex-basis: 48%; max-width:48%; } }
+    @media (max-width: 740px){ #bali-socialproof .sp-slide{ grid-template-columns:1fr; } }
+    #bali-socialproof .sp-slide:hover{ transform: translateY(-2px); box-shadow: 0 14px 34px rgba(11,96,96,.18), 0 6px 16px rgba(11,96,96,.12); }
+
+    /* ---------- Quote ---------- */
+    #bali-socialproof .sp-quote{ position:relative; padding: 6px 4px 4px 0; }
+    #bali-socialproof .sp-marks{
+      position:absolute; left:-6px; top:-2px; font-size:44px; line-height:1; color:rgba(233,199,123,.65);
+      text-shadow: 0 1px 0 rgba(255,255,255,.6);
+    }
+    #bali-socialproof .sp-q{
+      color: var(--ink-900);
+      font: 700 clamp(15.5px,1.6vw,18px)/1.6 ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Arial;
+    }
+    #bali-socialproof .sp-meta{ display:flex; align-items:center; gap:12px; margin-top:14px; }
+    #bali-socialproof .sp-avatar{
+      width:48px; height:48px; border-radius:999px; object-fit:cover; border:2px solid rgba(233,199,123,.35);
+      box-shadow: 0 4px 10px rgba(11,96,96,.12);
+    }
+    #bali-socialproof .sp-who{ display:grid; gap:2px; color: var(--ink-900); }
+    #bali-socialproof .sp-who b{ font: 900 14px/1.1 ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Arial; }
+    #bali-socialproof .sp-who span{ font: 600 12px/1.1 ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Arial; color:var(--muted); }
+
+    /* ---------- Side column ---------- */
+    #bali-socialproof .sp-side{
+      background: var(--sky-50); border:1px solid var(--sky-200); border-radius: var(--radius-lg);
+      padding: 14px; display:grid; gap:12px; align-content:start;
+    }
+    #bali-socialproof .sp-pill{
+      display:inline-flex; align-items:center; gap:10px; padding:8px 10px; border-radius:999px;
+      background: var(--white); border:1px solid var(--sky-200);
+      font:700 12px/1 ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Arial; color:var(--ink-900);
+      box-shadow: var(--shadow);
+    }
+    #bali-socialproof .sp-pill .sp-gold{ width:10px; height:10px; border-radius:999px; background:var(--accent); }
+    #bali-socialproof .sp-keyline{ height:1px; background: linear-gradient(90deg, rgba(11,96,96,.12), rgba(11,96,96,.02)); margin: 4px 0; }
+    #bali-socialproof .sp-mini{ display:grid; gap:8px; color:var(--ink-900); font: 600 13px/1.45 ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Arial; }
+    #bali-socialproof .sp-mini b{ font-weight:900; }
+
+    /* ---------- Controls ---------- */
+    #bali-socialproof .sp-controls{ display:flex; align-items:center; justify-content:center; gap:10px; margin-top: 14px; }
+    #bali-socialproof .sp-nav{
+      display:inline-grid; place-items:center; width:38px; height:38px; border-radius:12px; cursor:pointer;
+      background: linear-gradient(180deg, var(--white), var(--sky-50));
+      border:1px solid var(--sky-200); box-shadow: var(--shadow);
+      color: var(--ink-900); font: 900 16px/1 ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Arial;
+      transition: transform .2s ease, box-shadow .2s ease;
+    }
+    #bali-socialproof .sp-nav:hover{ transform: translateY(-1px); }
+    #bali-socialproof .sp-dots{ display:flex; gap:8px; align-items:center; }
+    #bali-socialproof .sp-dot{
+      width:8px; height:8px; border-radius:999px; background: var(--sky-200);
+      transition: transform .2s ease, background .2s ease;
+    }
+    #bali-socialproof .sp-dot[aria-current="true"]{
+      background: var(--accent); transform: scale(1.35); box-shadow: 0 0 0 6px rgba(233,199,123,.18);
+    }
+
+    /* ---------- CTA Stripe ---------- */
+    #bali-socialproof .sp-cta{
+      max-width:1120px; margin: 22px auto 0;
+      background: linear-gradient(180deg, var(--white), var(--sky-50));
+      border:1px solid var(--sky-200); border-radius: var(--radius-xl); box-shadow: var(--shadow);
+      padding: clamp(16px,2.6vw,22px);
+      display:grid; grid-template-columns: 1fr auto; gap:14px; align-items:center; position:relative; z-index:0;
+    }
+    @media (max-width: 760px){ #bali-socialproof .sp-cta{ grid-template-columns: 1fr; } }
+    #bali-socialproof .sp-cta p{
+      margin:0; color:var(--ink-900);
+      font:700 clamp(14px,1.6vw,16px)/1.5 ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Arial;
+    }
+    #bali-socialproof .sp-cta .sp-actions{ display:flex; flex-wrap:wrap; gap:10px; justify-content:flex-end; }
+    @media (max-width: 760px){ #bali-socialproof .sp-cta .sp-actions{ justify-content:flex-start; } }
+    #bali-socialproof .sp-btn{
+      -webkit-tap-highlight-color: transparent; appearance:none; border:none; outline:none; cursor:pointer;
+      border-radius: 12px; padding: 14px 18px; min-width: 160px;
+      display:inline-flex; align-items:center; justify-content:center; gap:10px;
+      font: 800 14px/1 ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Arial;
+      transition: transform .2s ease, box-shadow .2s ease, background .25s ease, color .25s ease;
+    }
+    #bali-socialproof .sp-btn-primary{ background: linear-gradient(180deg, var(--ink), var(--ink-900)); color: var(--white); box-shadow: 0 12px 28px rgba(11,96,96,.18), 0 4px 12px rgba(11,96,96,.16); }
+    #bali-socialproof .sp-btn-ghost{ background: linear-gradient(180deg, var(--white), var(--sky-50)); color: var(--ink-900); border:1px solid var(--sky-200); box-shadow: var(--shadow); }
+    #bali-socialproof .sp-btn:focus-visible{ box-shadow: var(--ring); }
+
+    /* ---------- Reveal ---------- */
+    #bali-socialproof .sp-reveal{ opacity:0; transform: translateY(10px); transition: opacity .5s ease, transform .5s ease; }
+    #bali-socialproof .sp-reveal.sp-in{ opacity:1; transform: translateY(0); }
+
+    @media (prefers-reduced-motion: reduce){
+      #bali-socialproof *{ transition:none !important; animation:none !important; }
+    }
+  </style>
+
+  <div class="sp-grain" aria-hidden="true"></div>
+
+  <!-- Header -->
+  <div class="sp-header sp-reveal">
+    <span class="sp-eyebrow"><span class="sp-dot" aria-hidden="true"></span> Student Voices</span>
+    <h2>Real transformations, compassionate guidance</h2>
+    <p class="sp-subhead">Stories from students and clients who experienced chakra-based sound healing, ethical practice, and the calm confidence to share healing with others.</p>
+  </div>
+
+  <!-- Carousel -->
+  <div class="sp-shell">
+    <div class="sp-viewport sp-reveal" id="sp-viewport" role="region" aria-label="Testimonials carousel" tabindex="0">
+      <!-- Slide 1 -->
+      <article class="sp-slide" aria-roledescription="slide">
+        <div class="sp-quote">
+          <div class="sp-marks">“</div>
+          <p class="sp-q">
+            I arrived in Bali feeling scattered. By Day 3, my breathing slowed, my voice softened, and I felt an unexpected steadiness.
+            The practices were gentle and ethical, and I never felt pushed—only guided.
+          </p>
+          <div class="sp-meta">
+            <img class="sp-avatar" alt="" src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=256&auto=format&fit=crop"/>
+            <div class="sp-who">
+              <b>Amaya R.</b>
+              <span>Yoga teacher • Singapore</span>
+            </div>
+          </div>
+        </div>
+        <aside class="sp-side">
+          <span class="sp-pill"><span class="sp-gold"></span> Calm nervous system</span>
+          <div class="sp-keyline"></div>
+          <div class="sp-mini">
+            <div><b>Why she came:</b> overwhelm & burnout</div>
+            <div><b>What helped:</b> heart opening, breath-led toning, bowl resonance practice</div>
+            <div><b>Outcome:</b> clear routine she teaches weekly</div>
+          </div>
+        </aside>
+      </article>
+
+      <!-- Slide 2 -->
+      <article class="sp-slide" aria-roledescription="slide">
+        <div class="sp-quote">
+          <div class="sp-marks">“</div>
+          <p class="sp-q">
+            The certification track was rigorous but kind. The afternoon sessions on ethics and assessment changed how I hold space.
+            I left confident to offer one-on-one sessions responsibly.
+          </p>
+          <div class="sp-meta">
+            <img class="sp-avatar" alt="" src="https://images.unsplash.com/photo-1607746882042-944635dfe10e?q=80&w=256&auto=format&fit=crop"/>
+            <div class="sp-who">
+              <b>Leo V.</b>
+              <span>Bodyworker • Netherlands</span>
+            </div>
+          </div>
+        </div>
+        <aside class="sp-side">
+          <span class="sp-pill"><span class="sp-gold"></span> Ethical foundations</span>
+          <div class="sp-keyline"></div>
+          <div class="sp-mini">
+            <div><b>Why he came:</b> add sound work safely</div>
+            <div><b>What helped:</b> paired practice, feedback, scope & language</div>
+            <div><b>Outcome:</b> launched an offering within 6 weeks</div>
+          </div>
+        </aside>
+      </article>
+
+      <!-- Slide 3 -->
+      <article class="sp-slide" aria-roledescription="slide">
+        <div class="sp-quote">
+          <div class="sp-marks">“</div>
+          <p class="sp-q">
+            I was nervous about using my voice. The guidance around resonance and gentle toning was so supportive.
+            By the closing ceremony, I felt proud—and grounded in my own sound.
+          </p>
+          <div class="sp-meta">
+            <img class="sp-avatar" alt="" src="https://images.unsplash.com/photo-1557296387-5358ad7997bb?q=80&w=256&auto=format&fit=crop"/>
+            <div class="sp-who">
+              <b>Karina M.</b>
+              <span>Wellness coach • USA</span>
+            </div>
+          </div>
+        </div>
+        <aside class="sp-side">
+          <span class="sp-pill"><span class="sp-gold"></span> Voice & confidence</span>
+          <div class="sp-keyline"></div>
+          <div class="sp-mini">
+            <div><b>Why she came:</b> stage anxiety</div>
+            <div><b>What helped:</b> safe group toning, pacing, bowl-voice blends</div>
+            <div><b>Outcome:</b> co-leads monthly circles</div>
+          </div>
+        </aside>
+      </article>
+
+      <!-- Slide 4 -->
+      <article class="sp-slide" aria-roledescription="slide">
+        <div class="sp-quote">
+          <div class="sp-marks">“</div>
+          <p class="sp-q">
+            Small group. Thoughtful schedule. Enough spaciousness to integrate.
+            The retreat felt respectful of boundaries and energy—no pushing, only invitation.
+          </p>
+          <div class="sp-meta">
+            <img class="sp-avatar" alt="" src="https://images.unsplash.com/photo-1547425260-76bcadfb4f2c?q=80&w=256&auto=format&fit=crop"/>
+            <div class="sp-who">
+              <b>Samir D.</b>
+              <span>Meditation guide • India</span>
+            </div>
+          </div>
+        </div>
+        <aside class="sp-side">
+          <span class="sp-pill"><span class="sp-gold"></span> Gentle pacing</span>
+          <div class="sp-keyline"></div>
+          <div class="sp-mini">
+            <div><b>Why he came:</b> deepen facilitation</div>
+            <div><b>What helped:</b> integration days, ethical framing</div>
+            <div><b>Outcome:</b> added sound to retreats</div>
+          </div>
+        </aside>
+      </article>
+    </div>
+
+    <!-- Controls -->
+    <div class="sp-controls sp-reveal" aria-label="Carousel controls">
+      <button class="sp-nav" id="sp-prev" aria-label="Previous testimonial" title="Previous">‹</button>
+      <div class="sp-dots" id="sp-dots" role="tablist" aria-label="Slides"></div>
+      <button class="sp-nav" id="sp-next" aria-label="Next testimonial" title="Next">›</button>
+    </div>
+  </div>
+
+  <!-- CTA stripe -->
+  <div class="sp-cta sp-reveal">
+    <p><strong>Limited to 8 participants.</strong> If this feels like your next step, you can apply now or book a short clarity call with Riya.</p>
+    <div class="sp-actions">
+      <a class="sp-btn sp-btn-primary" id="sp-apply" href="#apply">Apply Now</a>
+      <a class="sp-btn sp-btn-ghost" id="sp-call" href="#book-call">Book a Clarity Call</a>
+    </div>
+  </div>
+
+  <script>
+    (function(){
+      const root = document.getElementById('bali-socialproof');
+      if(!root) return;
+
+      /* ------ CTA links from data-attributes ------ */
+      const applyURL = root.getAttribute('data-apply-url') || '#apply';
+      const callURL  = root.getAttribute('data-call-url')  || '#book-call';
+      const applyBtn = root.querySelector('#sp-apply');
+      const callBtn  = root.querySelector('#sp-call');
+      if(applyBtn) applyBtn.href = applyURL;
+      if(callBtn)  callBtn.href  = callURL;
+
+      /* ------ Reveal on view ------ */
+      const obs = new IntersectionObserver((entries)=>{
+        entries.forEach(e=>{
+          if(e.isIntersecting){ e.target.classList.add('sp-in'); obs.unobserve(e.target); }
+        });
+      }, { threshold:.18 });
+      root.querySelectorAll('.sp-reveal').forEach(el => obs.observe(el));
+
+      /* ------ Carousel ------ */
+      const viewport = root.querySelector('#sp-viewport');
+      const slides   = Array.from(root.querySelectorAll('.sp-slide'));
+      const dotsWrap = root.querySelector('#sp-dots');
+      const prevBtn  = root.querySelector('#sp-prev');
+      const nextBtn  = root.querySelector('#sp-next');
+
+      // Build dots
+      slides.forEach((_, i)=>{
+        const d = document.createElement('button');
+        d.className = 'sp-dot';
+        d.setAttribute('role','tab');
+        d.setAttribute('aria-label', 'Go to slide ' + (i+1));
+        d.addEventListener('click', ()=> goTo(i, true));
+        dotsWrap.appendChild(d);
+      });
+
+      function slideWidth(){ return slides[0]?.getBoundingClientRect().width + 16 /*gap*/ || 0; }
+      function indexFromScroll(){
+        const w = slideWidth();
+        if(!w) return 0;
+        return Math.round(viewport.scrollLeft / w);
+      }
+      function updateDots(idx){
+        Array.from(dotsWrap.children).forEach((el, i)=> el.setAttribute('aria-current', i===idx ? 'true' : 'false'));
+      }
+      function goTo(idx, smooth){
+        idx = Math.max(0, Math.min(slides.length-1, idx));
+        const w = slideWidth();
+        viewport.scrollTo({ left: idx * w, behavior: smooth ? 'smooth' : 'auto' });
+        updateDots(idx);
+        current = idx;
+      }
+
+      let current = 0;
+      updateDots(current);
+
+      // Snap sync on scroll
+      let t;
+      viewport.addEventListener('scroll', ()=>{
+        clearTimeout(t);
+        t = setTimeout(()=> updateDots(indexFromScroll()), 60);
+      });
+
+      // Buttons
+      prevBtn.addEventListener('click', ()=> goTo(indexFromScroll()-1, true));
+      nextBtn.addEventListener('click', ()=> goTo(indexFromScroll()+1, true));
+
+      // Keyboard nav inside viewport
+      viewport.addEventListener('keydown', (e)=>{
+        if(e.key === 'ArrowRight'){ e.preventDefault(); nextBtn.click(); }
+        if(e.key === 'ArrowLeft'){  e.preventDefault(); prevBtn.click(); }
+      });
+
+      // Autoplay (pauses on hover/focus)
+      let auto = null, hover = false, focusIn = false;
+      const prefersReduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      function startAuto(){
+        if(prefersReduce || auto) return;
+        auto = setInterval(()=>{
+          const i = indexFromScroll();
+          goTo(i >= slides.length-1 ? 0 : i+1, true);
+        }, 5500);
+      }
+      function stopAuto(){ if(auto){ clearInterval(auto); auto = null; } }
+
+      viewport.addEventListener('mouseenter', ()=>{ hover = true; stopAuto(); });
+      viewport.addEventListener('mouseleave', ()=>{ hover = false; if(!focusIn) startAuto(); });
+      viewport.addEventListener('focusin',  ()=>{ focusIn = true; stopAuto(); });
+      viewport.addEventListener('focusout', ()=>{ focusIn = false; if(!hover) startAuto(); });
+
+      startAuto();
+
+      // Respect reduced motion
+      try{ if(prefersReduce){ stopAuto(); } }catch(e){}
+    })();
+  </script>
+</section>

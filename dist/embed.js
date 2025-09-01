@@ -38,7 +38,7 @@
   fetch(BASE + 'sections/' + section + '.html', { cache: 'no-store' }) // NOTE: .../dist/sections/...
     .then(function (r) { if (!r.ok) throw new Error('HTML ' + r.status); return r.text(); })
     .then(function (html) {
-      mount.innerHTML = html;
+      mount.insertAdjacentHTML('beforeend', html); // appends instead of overwriting
 
       // Execute any <script> tags inside the section so its JS runs
       var scripts = mount.querySelectorAll('script');
